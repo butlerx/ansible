@@ -1,0 +1,16 @@
+---
+- name: restart ntp
+  service:
+    name: ntp
+    state: restarted
+
+- name: force ntp update
+  shell:
+    "service ntp stop && ntpdate -s {{ hostvars[groups[timelord][0]]['ansible_'
+    ~ ntp_netdevice]['ipv4']['address'] }} && service ntp start"
+  when: ansible_hostname != timelord
+
+- name: restart pihole_exporter
+  service:
+    name: pihole-exporter
+    state: restarted

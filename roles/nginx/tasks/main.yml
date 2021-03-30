@@ -1,0 +1,38 @@
+---
+- name: Install NGINX
+  apt:
+    package:
+      - nginx
+      - php7.3-fpm
+      - php7.3-cgi
+      - php7.3-xml
+      - php7.3-sqlite3
+      - php7.3-intl
+    state: present
+  tags: nginx
+
+- name: Configure NGINX Proxies
+  become: true
+  template:
+    src: 'proxy.conf.j2'
+    dest: '/etc/nginx/sites-enabled/{{ item.key }}'
+    owner: root
+    group: root
+    mode: 0644
+  tags: nginx
+  notify: reload nginx
+  with_dict: '{{ nginx_proxies }}'
+
+- name: Enable PHP
+  service:
+    name: php7.3-fpm
+    state: started
+    enabled: true
+  tags: nginx
+
+- name: Enable NGINX
+  service:
+    name: nginx
+    state: started
+    enabled: true
+  tags: nginx

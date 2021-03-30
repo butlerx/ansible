@@ -1,0 +1,63 @@
+---
+- name: Get latest release
+  uri:
+    url: 'https://api.github.com/repos/eko/pihole-exporter/releases/latest'
+    method: GET
+    return_content: true
+    status_code: 200
+    body_format: json
+    validate_certs: false
+    user: "{{ lookup('env', 'GH_USER') | default(omit) }}"
+    password: "{{ lookup('env', 'GH_TOKEN') | default(omit) }}"
+  no_log: "{{ not lookup('env', 'ANSIBLE_DEBUG') | bool }}"
+  register: _latest_release
+  until: _latest_release.status == 200
+  retries: 5
+
+- name: 'Set prometheus version to {{ _latest_release.json.tag_name[1:] }}'
+  set_fact:
+    pihole_exporter_version: '{{ _latest_release.json.tag_name[1:] }}'
+
+- name: download pihole-exporter binary to local folder
+  become: false
+  get_url:
+    url:
+      'https://github.com/eko/pihole-exporter/releases/download/v{{
+      pihole_exporter_version }}/pihole_exporter-linux-arm'
+    dest: '/tmp/pihole_exporter'
+  register: _download_archive
+  until: _download_archive is succeeded
+  retries: 5
+  delay: 2
+  delegate_to: localhost
+  check_mode: false
+
+- name: propagate pihole-exporter binaries
+  copy:
+    src: '/tmp/pihole_exporter'
+    dest: '/usr/local/bin/pihole_exporter'
+    mode: 0755
+    owner: root
+    group: root
+  notify:
+    - restart pihole_exporter
+
+- name: create systemd service unit
+  template:
+    src: pihole-exporter.service.j2
+    dest: /etc/systemd/system/pihole-exporter.service
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart pihole_exporter
+
+- name: ensure pihole-exporter service is started and enabled
+  become: true
+  systemd:
+    daemon_reload: true
+    name: pihole-exporter
+    state: started
+    enabled: true
+  tags:
+    - pihole

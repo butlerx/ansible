@@ -1,0 +1,17 @@
+---
+- name: Disable lighttpd
+  service:
+    name: lighttpd
+    state: stopped
+    enabled: false
+
+- name: Configure nginx
+  become: true
+  template:
+    src: 'files/nginx.conf'
+    dest: '/etc/nginx/sites-enabled/default'
+    owner: root
+    group: root
+    mode: 0644
+  tags: nginx
+  notify: reload nginx

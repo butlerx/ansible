@@ -1,0 +1,40 @@
+---
+- name: Force APT IPV4
+  copy:
+    src: ./files/99force-ipv4.conf
+    dest: /etc/apt/apt.conf.d/99force-ipv4
+    mode: 0600
+  tags: admin
+
+- name: Update APT package cache
+  apt:
+    update_cache: true
+    upgrade: full
+  tags: admin
+
+- name: Install Packages
+  apt:
+    package: '{{ sys_packages }}'
+    state: latest
+  tags: admin
+
+- name: 'Disable WIFI and Bluetooth'
+  copy:
+    src: ./files/raspi-blacklist.conf
+    dest: /etc/modprobe.d/raspi-blacklist.conf
+    mode: 0600
+  tags: admin
+
+- name: Set authorized key took from file
+  authorized_key:
+    user: pi
+    state: present
+    key:
+      "{{ lookup('file', lookup('env','HOME') + '/.ssh/' + ssh_key + '.pub') }}"
+
+- name: Disable GUI
+  sysvinit:
+    name: lightdm
+    state: stopped
+    enabled: false
+  ignore_errors: true

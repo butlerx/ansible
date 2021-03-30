@@ -1,0 +1,9 @@
+---
+- name: Update YUM
+  yum:
+    update_cache: true
+
+- name: Install System Packages
+  yum:
+    state: latest
+    name: '{{ sys_packages }}'

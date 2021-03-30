@@ -1,0 +1,25 @@
+---
+ansible_connection: ssh
+ansible_ssh_user: pi
+ansible_ssh_pass: raspberry
+
+toplevel_timeservers: ['pool.ntp.org', 'time.google.com']
+
+user_pihole: "pihole"
+group_pihole: "pihole"
+
+fspath_web_interface: "/var/www/admin"
+fspath_web_directory: "/var/www/pihole"
+fspath_pihole: "/opt/pihole"
+fspath_pihole_config: "/etc/pihole"
+
+gateway_ip: 10.0.0.1
+network_interface: eth0
+ipv4_static: true
+ipv4_address: "{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}"
+# per default just use the first available ipv6 address on the interface
+ipv6: true
+ipv6_address: "{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv6'][0]['address'] }}"
+dns_servers:
+  - "1.1.1.1"
+  - "1.0.0.1"

@@ -1,0 +1,13 @@
+---
+- name: reload ferm
+  service:
+    name: ferm
+    state: force-reload
+
+- name: run ferm
+  shell: ferm /etc/ferm/ferm.conf
+
+- name: restart sshd
+  service:
+    name: sshd
+    state: restarted

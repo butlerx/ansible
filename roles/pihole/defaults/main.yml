@@ -1,0 +1,17 @@
+---
+pihole_user: 'pihole'
+pihole_group: 'pihole'
+
+pihole_web_dir: '/var/www/html'
+pihole_opt_dir: '/opt/pihole'
+pihole_config_dir: '/etc/pihole'
+
+pihole_gateway_ip: 10.0.0.1
+pihole_network_interface: eth0
+pihole_ipv4_address: "{{ hostvars[inventory_hostname]['ansible_' + pihole_network_interface]['ipv4']['address'] }}"
+# per default just use the first available ipv6 address on the interface
+pihole_ipv6_address: "{{ hostvars[inventory_hostname]['ansible_' + pihole_network_interface]['ipv6'][0]['address'] }}"
+
+pihole_dns_servers:
+  - '1.1.1.1'
+  - '1.0.0.1'

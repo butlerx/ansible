@@ -2,7 +2,7 @@ server {
     listen 80 default_server;
     listen [::]:80 default_server;
 
-    root /var/www/html;
+    root {{ pihole_web_dir }};
     server_name _;
     autoindex off;
 

@@ -8,9 +8,7 @@
   when: ansible_distribution == 'Debian'
 
 - include: centos.yaml
-  when:
-    ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat
-    Enterprise Linux'
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - include: arch.yaml
   when: ansible_distribution == 'ArchLinux'
@@ -64,8 +62,7 @@
 - name: Set up authorized keys for the deployer user
   authorized_key:
     user: '{{ username }}'
-    key:
-      "{{ lookup('file', lookup('env','HOME') + '/.ssh/' + ssh_key + '.pub') }}"
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/' + ssh_key + '.pub') }}"
 
 - name: Disable root login over SSH
   lineinfile:
@@ -87,7 +84,12 @@
 
 - name: 'Set default bash aliases'
   copy:
-    src: ./files/etc_profile.d_bash_aliases.sh
+    src: etc_profile.d_bash_aliases.sh
     dest: /etc/profile.d/bash_aliases.sh
     mode: 0600
   tags: admin
+
+- name: Setup Node exporter
+  include_role:
+    name: cloudalchemy.node_exporter
+  tags: metrics

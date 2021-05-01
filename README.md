@@ -2,8 +2,7 @@
 
 ## Requirements
 
-- Flash a **clean** Raspbian Lite image on an SD card URL:
-  https://www.raspberrypi.org/downloads/raspbian/ Mac: Use
+- Flash a **clean** Raspbian Lite image on an SD card URL: https://www.raspberrypi.org/downloads/raspbian/ Mac: Use
   [ApplePI-Baker](https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/)
 - Enable SSH on the Raspberry (it is disabled by default). You can:
   - use `raspi-config` to enable SSH
@@ -23,5 +22,5 @@ ansible-galaxy install -r requirements.yml
 then run the playbook
 
 ```
-./playbook.yml
+ansible-playbook site.yml
 ```

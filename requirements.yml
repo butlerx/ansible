@@ -4,4 +4,3 @@
 - src: cloudalchemy.grafana
 - src: cloudalchemy.node_exporter
 - src: cloudalchemy.snmp-exporter
-- src: nginxinc.nginx

@@ -9,8 +9,8 @@ Type=simple
 Environment="GOMAXPROCS={{ ansible_processor_vcpus|default(ansible_processor_count) }}"
 ExecStart=/usr/local/bin/pihole_exporter -pihole_hostname pi.hole
 Restart=always
-User=pihole
-Group=pihole
+User={{ pihole_user }}
+Group={{ pihole_group }}
 {% if http_proxy is defined %}
 Environment="HTTP_PROXY={{ http_proxy }}"{% if https_proxy is defined %} "HTTPS_PROXY={{ https_proxy }}{% endif %}"
 {% endif %}

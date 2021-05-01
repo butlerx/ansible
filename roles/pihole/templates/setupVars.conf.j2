@@ -1,11 +1,11 @@
-# {{ ansible_managed }}
+{{ ansible_managed | comment }}
 
-configDirectory={{ fspath_pihole_config }}
-installDirectory={{ fspath_pihole }}
-PIHOLE_INTERFACE={{ network_interface }}
-IPV4_ADDRESS={{ ipv4_address }}/24
-IPV6_ADDRESS={{ ipv6_address }}
-PIHOLE_DNS_1={{ dns_servers[0] }}
-PIHOLE_DNS_2={{ dns_servers[1] }}
+configDirectory={{ pihole_config_dir }}
+installDirectory={{ pihole_opt_dir }}
+PIHOLE_INTERFACE={{ pihole_network_interface }}
+IPV4_ADDRESS={{ pihole_ipv4_address }}/24
+IPV6_ADDRESS={{ pihole_ipv6_address }}
+PIHOLE_DNS_1={{ pihole_dns_servers[0] }}
+PIHOLE_DNS_2={{ pihole_dns_servers[1] }}
 QUERY_LOGGING=true
-INSTALL_WEB=true
+INSTALL_WEB=false

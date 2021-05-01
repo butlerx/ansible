@@ -1,0 +1,10 @@
+---
+- name: Setup Athena
+  hosts:
+    - athena
+  become: true
+  remote_user: pi
+  roles:
+    - common
+    - pihole
+    - metrics

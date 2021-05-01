@@ -1,0 +1,43 @@
+---
+prometheus_targets:
+  node:
+    - targets:
+        - 'athena:9100'
+        - 'hephaestus:9100'
+prometheus_scrape_configs:
+  - job_name: 'prometheus'
+    metrics_path: '{{ prometheus_metrics_path }}'
+    static_configs:
+      - targets: ["{{ ansible_fqdn | default(ansible_host) | default('localhost') }}:9090"]
+  - job_name: 'node'
+    file_sd_configs:
+      - files: ['{{ prometheus_config_dir }}/file_sd/node.yml']
+  - job_name: pihole
+    static_configs:
+      - targets: ['athena:9617']
+  - job_name: 'grafana'
+    static_configs:
+      - targets: ['athena:3000']
+  - job_name: snmp
+    static_configs:
+      - targets: ["{{ ansible_fqdn | default(ansible_host) | default('localhost') }}:9116"]
+  - job_name: edgerouter
+    scrape_interval: 60s
+    static_configs:
+      - targets: ['10.0.0.1']
+    metrics_path: /snmp
+    params:
+      module:
+        - edgerouter
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: "{{ ansible_fqdn | default(ansible_host) | default('localhost') }}:9116"
+prometheus_global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+prometheus_storage_retention: 14d
+snmp_exporter_config_file: files/snmp.yml

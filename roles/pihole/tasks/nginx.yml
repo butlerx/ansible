@@ -5,10 +5,13 @@
     state: stopped
     enabled: false
 
+- name: Include NGINX role
+  include_role:
+    name: nginx
+
 - name: Configure nginx
-  become: true
   template:
-    src: 'files/nginx.conf'
+    src: 'nginx.conf.j2'
     dest: '/etc/nginx/sites-enabled/default'
     owner: root
     group: root

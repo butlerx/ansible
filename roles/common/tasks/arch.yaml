@@ -1,21 +1,19 @@
 ---
-- user:
+- name: Create aur_builder user
+  user:
     name: aur_builder
 
-- lineinfile:
+- name: Add aur builder to sudoers
+  lineinfile:
     path: /etc/sudoers.d/aur_builder-allow-to-sudo-pacman
     state: present
     line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
     validate: /usr/sbin/visudo -cf %s
     create: true
-
-- name: Update Packman
-  pacman:
-    update_cache: true
-  when: ansible_distribution == 'ArchLinux'
+    mode: 0600
 
 - name: Install System Packages
-  package:
-    pkg: '{{ item }}'
-    state: latest
-  with_items: '{{ sys_packages }}'
+  pacman:
+    name: '{{ sys_packages }}'
+    update_cache: true
+    state: present

@@ -1,0 +1,35 @@
+---
+hostname: athena
+enable_firewall: true
+firewall_ports:
+  http:
+    port: 80
+    proto: tcp
+  dns:
+    port: 53
+    proto: tcp
+  dns_udp:
+    port: 53
+    proto: udp
+  prometheus:
+    port: 9090
+    proto: tcp
+sys_packages:
+  - wget
+  - vim
+  - git
+  - tmux
+  - zsh
+  - python-apt
+  - python-pip
+  - htop
+  - nmap
+  - atop
+
+ansible_ssh_user: pi
+ansible_ssh_pass: raspberry
+
+# NGINX
+nginx_proxies:
+  graphs: 3000
+  prometheus: 9090

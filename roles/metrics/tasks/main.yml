@@ -1,0 +1,13 @@
+---
+- name: Setup Prometheus
+  include_role:
+    name: cloudalchemy.prometheus
+  tags: metrics
+- name: Setup Prometheus SNMP exporter
+  include_role:
+    name: cloudalchemy.snmp-exporter
+  tags: metrics
+- name: Setup Grafana
+  include_role:
+    name: cloudalchemy.grafana
+  tags: metrics

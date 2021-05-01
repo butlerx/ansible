@@ -1,4 +1,9 @@
 ---
+- name: Ensure Debian
+  assert:
+    that:
+      - ansible_distribution == 'Debian'
+
 - name: Install NGINX
   apt:
     package:

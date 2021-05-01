@@ -1,0 +1,5 @@
+{{ ansible_managed | comment }}
+nameserver 127.0.0.1
+{% for server in pihole_dns_servers %}
+nameserver {{ server }}
+{% endfor %}

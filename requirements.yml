@@ -1,4 +1,3 @@
-#!/usr/bin/env -S ansible-galaxy install -r requirements.yml
 ---
 - src: cloudalchemy.prometheus
   version: 2.16.3

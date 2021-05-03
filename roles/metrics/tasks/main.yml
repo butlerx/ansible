@@ -1,13 +1,27 @@
 ---
+- name: Import Prometheus Config
+  include_vars: prometheus.yml
+  tags: metrics
 - name: Setup Prometheus
   include_role:
     name: cloudalchemy.prometheus
+    apply:
+      tags: metrics
   tags: metrics
 - name: Setup Prometheus SNMP exporter
   include_role:
     name: cloudalchemy.snmp-exporter
+    apply:
+      tags: metrics
+  vars:
+    snmp_exporter_config_file: files/snmp.yml
+  tags: metrics
+- name: Import Grafana Config
+  include_vars: grafana.yml
   tags: metrics
 - name: Setup Grafana
   include_role:
     name: cloudalchemy.grafana
+    apply:
+      tags: metrics
   tags: metrics

@@ -1,10 +1,4 @@
 ---
-- name: Setup Athena
-  hosts:
-    - athena
-  become: true
-  remote_user: pi
-  roles:
-    - common
-    - pihole
-    - metrics
+- import_playbook: athens.yml
+- import_playbook: scaleway.yml
+- import_playbook: scaleway_instances.yml

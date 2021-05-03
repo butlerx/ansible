@@ -1,0 +1,46 @@
+---
+- name: Configure Scaleway
+  hosts: localhost
+  gather_facts: false
+  environment:
+    SCW_API_KEY: "{{ lookup('community.general.passwordstore', 'hosting/scaleway.com subkey=secret_key')}}"
+  vars:
+    scw_region: ams1
+    scw_org: f371c475-571e-44d2-8e22-0b36abda516e
+    cf_api_token: "{{ lookup('community.general.passwordstore', 'hosting/cloudflare.com subkey=api_token')}}"
+  tasks:
+    - name: Add SSH key
+      community.general.scaleway_sshkey:
+        ssh_pub_key: '{{ ssh_pub_key }}'
+        state: present
+        api_token: "{{ lookup('env', 'SCW_API_KEY') }}"
+    - name: Create IRC Server
+      community.general.scaleway_compute:
+        name: eros
+        api_token: "{{ lookup('env', 'SCW_API_KEY') }}"
+        state: present
+        image: 3c0f706e-0947-47a3-88a3-595c29f7567a
+        organization: '{{ scw_org }}'
+        region: '{{ scw_region }}'
+        commercial_type: START1-XS
+        enable_ipv6: true
+        public_ip: dynamic
+        wait: true
+        tags:
+          - irc
+          - bitlbee
+      register: irc_server
+    - debug: msg={{ cf_api_token }}
+    - name: Set DNS for IRC Server
+      community.general.cloudflare_dns:
+        zone: notthe.cloud
+        record: notthe.cloud
+        type: '{{ item.key }}'
+        value: '{{ item.value }}'
+        api_token: '{{ cf_api_token }}'
+      with_dict:
+        A: '{{ irc_server.msg.public_ip.address }}'
+        AAAA: '{{ irc_server.msg.ipv6.address }}'
+    - meta: refresh_inventory
+      environment:
+        SCW_API_KEY: "{{ lookup('env', 'SCW_API_KEY') }}"

@@ -1,0 +1,39 @@
+---
+- name: 'Setting hostname'
+  hostname:
+    name: '{{ hostname }}'
+  tags: admin
+
+- include_tasks: pi.yml
+  when: ansible_distribution == 'Debian'
+
+- include_tasks: centos.yml
+  when: ansible_distribution in ['CentOS', 'Red Hat Enterprise Linux', 'Fedora']
+
+- include_tasks: arch.yml
+  when: ansible_distribution == 'ArchLinux'
+
+- name: Setup Firewall
+  tags: admin
+  include_tasks: firewall.yml
+  when: enable_firewall
+
+- include_tasks: users.yml
+
+- name: 'Set default bash aliases'
+  copy:
+    src: etc_profile.d_bash_aliases.sh
+    dest: /etc/profile.d/bash_aliases.sh
+    mode: 0600
+  tags: admin
+
+- name: Setup Dotfiles
+  when: install_dotfiles
+  include_tasks: dotfiles.yml
+
+- name: Setup Node exporter
+  include_role:
+    name: cloudalchemy.node_exporter
+    apply:
+      tags: metrics
+  tags: metrics

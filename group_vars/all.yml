@@ -1,5 +1,0 @@
----
-username: butlerx
-real_name: Cian Butler
-ssh_key: id_ed25519
-ansible_connection: ssh

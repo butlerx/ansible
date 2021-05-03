@@ -1,0 +1,57 @@
+---
+grafana_provisioning_synced: true
+grafana_url: 'https://{{ grafana_domain }}'
+grafana_domain: graphs.gobut.me
+
+grafana_server:
+  protocol: http
+  enforce_domain: false
+  enable_gzip: true
+  static_root_path: public
+  router_logging: false
+
+# Variables correspond to ones in grafana.ini configuration file
+# Security
+grafana_security:
+  admin_user: "{{ lookup('community.general.passwordstore', 'notthe.cloud/graphs')}}"
+  admin_password: "{{ lookup('community.general.passwordstore', 'notthe.cloud/graphs', subkey='user')}}"
+grafana_database:
+  type: sqlite3
+
+grafana_users:
+  allow_sign_up: false
+  auto_assign_org_role: Viewer
+  default_theme: dark
+
+# grafana authentication mechanisms
+grafana_auth:
+  disable_login_form: true
+  oauth_auto_login: true
+  disable_signout_menu: false
+  google:
+    enabled: true
+    client_id: "{{ lookup('community.general.passwordstore', 'notthe.cloud/graphs subkey=google_client_id')}}"
+    client_secret: "{{ lookup('community.general.passwordstore', 'notthe.cloud/graphs subkey=google_client_secret')}}"
+    scopes: https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email
+    auth_url: https://accounts.google.com/o/oauth2/auth
+    token_url: https://accounts.google.com/o/oauth2/token
+    allowed_domains: notthe.cloud
+    allow_sign_up: true
+
+grafana_plugins:
+  - grafana-clock-panel
+  - grafana-polystat-panel
+  - grafana-worldmap-panel
+
+grafana_dashboards: []
+# - dashboard_id: 111
+#   revision_id: 1
+#   datasource: prometheus
+
+grafana_datasources:
+  - name: prometheus
+    type: prometheus
+    access: proxy
+    url: 'http://{{ prometheus_web_listen_address }}'
+    basicAuth: false
+    isDefault: true

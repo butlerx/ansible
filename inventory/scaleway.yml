@@ -1,0 +1,8 @@
+---
+plugin: community.general.scaleway
+hostnames:
+  - hostname
+regions:
+  - ams1
+variables:
+  ansible_host: public_ip.address

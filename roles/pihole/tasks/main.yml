@@ -39,15 +39,15 @@
     state: directory
     owner: '{{ pihole_user }}'
     group: '{{ pihole_group }}'
-    mode: 0755
+    mode: 0775
   tags: pihole
 
 - name: Create pihole configuration
   template:
     src: 'setupVars.conf.j2'
     dest: '{{ pihole_config_dir }}/setupVars.conf'
-    owner: root
-    group: root
+    owner: '{{ pihole_user }}'
+    group: '{{ pihole_group }}'
     mode: 0644
   tags: pihole
 
@@ -70,7 +70,7 @@
   tags: admin
 
 - name: Install Pi-Hole
-  shell: '~/install-pihole.sh --unattended'
+  shell: '~/install-pihole.sh --unattended --disable-install-webserver'
   register: dbg_install_pihole
   tags: pihole
 

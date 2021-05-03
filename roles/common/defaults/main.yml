@@ -2,3 +2,10 @@
 enable_firewall: false
 firewall_port: false
 sys_packages: []
+install_dotfiles: false
+
+dotfiles_repo: git@github.com:butlerx/dotfiles.git
+dotfiles_repo_local_destination: ~/.dotfiles
+dotfiles_repo_accept_hostkey: true
+dotfiles_home: '{{ user_registered.home }}'
+dotfile_files: []

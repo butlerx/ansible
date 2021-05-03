@@ -1,0 +1,10 @@
+---
+dotfiles_files:
+  - vimrc
+  - config/nvim
+  - tmux
+  - tmux.conf
+  - weechat
+  - zshrc
+  - ssh/config
+  - gitconfig

@@ -1,0 +1,5 @@
+---
+username: butlerx
+real_name: Cian Butler
+ssh_key: id_ed25519
+ssh_pub_key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/' + ssh_key + '.pub') }}"

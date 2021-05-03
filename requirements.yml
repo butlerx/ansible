@@ -1,6 +1,10 @@
 #!/usr/bin/env -S ansible-galaxy install -r requirements.yml
 ---
 - src: cloudalchemy.prometheus
+  version: 2.16.3
 - src: cloudalchemy.grafana
+  version: 0.18.0
 - src: cloudalchemy.node_exporter
+  version: 0.22.0
 - src: cloudalchemy.snmp-exporter
+  version: 0.4.12

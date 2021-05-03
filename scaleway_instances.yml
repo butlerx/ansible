@@ -1,0 +1,10 @@
+---
+- name: Configure Scaleway Instances
+  hosts: ams1
+  become: true
+  roles:
+    - common
+  tasks:
+    - include_role:
+        name: '{{ item }}'
+      with_items: '{{ tags }}'

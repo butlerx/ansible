@@ -1,0 +1,18 @@
+[Unit]
+Description=A headless WeeChat client and relay service
+After=network.target
+
+[Service]
+Type=forking
+{% if weechat_headless %}
+ExecStart=/usr/bin/weechat-headless --daemon
+{% else %}
+RemainAfterExit=yes
+ExecStart=/usr/bin/tmux -L weechat new -d -s weechat weechat
+ExecStop=/usr/bin/tmux -L weechat kill-session -t weechat
+{% end %}
+User={{ weechat_username }}
+EnvironmentFile={{ weechat_env_file_path }}
+
+[Install]
+WantedBy=default.target

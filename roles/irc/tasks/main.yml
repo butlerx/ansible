@@ -1,0 +1,16 @@
+---
+- include_tasks: centos.yml
+  when: ansible_distribution in ['CentOS', 'Red Hat Enterprise Linux', 'Fedora']
+
+- include_tasks: debian.yml
+  when: ansible_distribution == 'Debian'
+
+- include_tasks: environment.yml
+
+- include_tasks: weechat.yml
+
+- include_tasks: glowingbear.yml
+  when: weechat_frontend
+
+- include_tasks: nginx.yml
+  when: nginx_with_reverse_proxy

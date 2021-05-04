@@ -1,0 +1,48 @@
+---
+- name: Get info on relay key file
+  stat:
+    path: '{{ weechat_relay_key }}'
+  register: weechat_relay_key_st
+
+- name: Get info on relay public cert file
+  stat:
+    path: '{{ weechat_relay_public_cert }}'
+  register: weechat_relay_public_cert_st
+
+- name: Get info on concatenated key and pub cert file
+  stat:
+    path: '{{ weechat_relay_cert }}'
+  register: weechat_relay_cert_st
+
+- name: Create weechat key
+  shell: >-
+    openssl req -x509 -nodes -newkey rsa:4096 -sha256 -keyout {{ weechat_relay_key }} -out {{ weechat_relay_public_cert
+    }} -days 365 -subj '/CN=weechat relay/'
+  when: not (weechat_relay_public_cert_st.stat.exists and weechat_relay_key_st.stat.exists)
+
+- name: Concatenate public cert and key into weechat relay cert
+  shell: >
+    cat {{ weechat_relay_public_cert }} {{ weechat_relay_key }} > {{ weechat_relay_cert }}
+  when: not weechat_relay_cert_st.stat.exists
+
+- name: Template weechat.service
+  template:
+    src: weechat.service.j2
+    dest: /usr/lib/systemd/system/weechat.service
+    owner: root
+    mode: 0755
+
+- name: Template weechat relay config
+  template:
+    src: relay.conf.j2
+    dest: '{{ weechat_config_dir }}/relay.conf'
+    owner: weechat
+    mode: 0755
+  when: not weechat_config_repo
+
+- name: Activate weechat service
+  systemd:
+    daemon_reload: true
+    name: weechat
+    enabled: true
+    state: started

@@ -1,0 +1,30 @@
+---
+weechat_frontend: true
+weechat_headless: false
+
+# linux username that will run the weechat process
+weechat_username: weechat
+
+# default relay password
+weechat_relay_password: defaultpassword
+
+# weechat directory and file paths
+weechat_home: '/home/{{ weechat_username }}'
+weechat_config_dir: '{{ weechat_home }}/.weechat'
+weechat_env_file_path: '{{ weechat_config_dir }}/weechat_env.sh'
+
+# weechat ssl paths
+weechat_relay_creds_dir: '{{ weechat_config_dir }}/ssl'
+weechat_relay_public_cert: '{{ relay_creds_dir }}/relay.pem'
+weechat_relay_key: '{{ relay_creds_dir }}/relay.key'
+weechat_relay_cert: '{{ relay_creds_dir }}/weechat.pem'
+
+# Nginx variables
+nginx_with_reverse_proxy: true
+server_url: localhost
+signed_cert_plus_intermediates_path: false
+private_key_path: false
+nginx_with_ssl: false
+nginx_server_ssl_cert_dir: /etc/creds
+nginx_dhparam_path: /var/creds/dhparam.pem
+glowingbear_path: /var/www/glowingbear

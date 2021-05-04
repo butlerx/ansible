@@ -1,0 +1,19 @@
+---
+- name: Download glowing bear
+  git:
+    repo: 'https://github.com/glowing-bear/glowing-bear.git'
+    version: master
+    dest: /var/www/glowingbear
+
+- name: Template nginx site
+  template:
+    src: glowingbear.conf.j2
+    dest: /etc/nginx/sites-available/glowingbear.conf
+    owner: root
+    mode: 0755
+
+- name: Link glowingbear frontend to sites-enabled
+  file:
+    src: /etc/nginx/sites-available/glowingbear.conf
+    dest: /etc/nginx/sites-enabled/default
+    state: link

@@ -1,0 +1,37 @@
+---
+- name: Update, Upgrade and install requirements
+  apt:
+    update_cache: true
+    pkg:
+      - nginx-extras
+      - openssl
+      - git
+      - dirmngr
+      - gpg-agent
+      - apt-transport-https
+      - tmux
+
+- name: Add weechat keys
+  apt_key:
+    keyserver: hkps://keys.openpgp.org
+    id: 11E9DE8848F2B65222AA75B8D1820DB22A11534E
+
+- name: Add weechat repository
+  apt_repository:
+    repo: deb https://weechat.org/debian stretch main
+    state: present
+
+- name: Add weechat src repository
+  apt_repository:
+    repo: deb-src https://weechat.org/debian stretch main
+    state: present
+
+- name: Update and install weechat
+  apt:
+    update_cache: true
+    pkg:
+      - weechat
+      - weechat-plugins
+      - weechat-python
+      - weechat-perl
+      - weechat-headless

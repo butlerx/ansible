@@ -1,0 +1,11 @@
+---
+- name: Update and install weechat
+  yum:
+    update_cache: true
+    name:
+      - tmux
+      - git
+      - openssl
+      - weechat
+      - dirmngr
+      - gpg-agent

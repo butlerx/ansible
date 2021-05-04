@@ -1,0 +1,20 @@
+[settings]
+RunMode = ForkDaemon
+User = bitlbee
+
+# DaemonInterface = 127.0.0.1
+# DaemonPort = 6697
+
+AuthMode = {{ bitlbee_authmode }}
+{% id bitlbee_authmode is 'Closed' %}
+AuthPassword = {{ bitlbee_pass }}
+{% endif %}
+
+OperPassword = {{ bitlbee_oper_pass }}
+HostName = {{ bitlbee_hostname }}
+MotdFile = /etc/bitlbee/motd.txt
+ConfigDir = /var/lib/bitlbee
+PingInterval = 30
+PingTimeOut = 180
+
+[defaults]

@@ -5,15 +5,22 @@
     version: master
     dest: /var/www/glowingbear
 
+- name: Include Nginx
+  include_role:
+    name: nginx
+
 - name: Template nginx site
   template:
     src: glowingbear.conf.j2
     dest: /etc/nginx/sites-available/glowingbear.conf
     owner: root
-    mode: 0755
+    group: root
+    mode: 0644
 
 - name: Link glowingbear frontend to sites-enabled
   file:
     src: /etc/nginx/sites-available/glowingbear.conf
     dest: /etc/nginx/sites-enabled/default
     state: link
+  tags: nginx
+  notify: reload nginx

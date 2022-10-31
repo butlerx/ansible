@@ -1,24 +1,28 @@
 ---
-bitlbee_pass: $PUT_YOUR_PASS_HERE
-bitlbee_oper_pass: $YOUR_OPERATOR_PASS
-bitlbee_port: $THE_PORT
-authmode: closed
+bitlbee_pass:
+bitlbee_oper_pass:
+bitlbee_port: 6667
+bitlbee_authmode: registered
 
-# configuration for the users file where the IM credentials go
-# these will populate the xml configuration file
-# usually created by chatting with the &bitlbee bot
-bitlbee_user: $YOUR_USER
+bitlbee_user: butlerx
+bitlbee_hostname: '{{ inventory_hostname }}'
 
-# I only use Jabber so I've only managed to scrip this part
-# patches welcome to configure other protocols
-jabber_handle: stefano.maffulli@jabber.newdream.net
-# as above, RC4 hash -TO BE TESTED
-jabber_pwd: $USER_PASS
-jabber_server: $JABBER.SOMEDOMAIN
-jabber_conference: $CONFERENCE.JABBER.DOMAIN
+bitlbee_jabber_enabled: false
+bitlbee_jabber_user:
+bitlbee_jabber_pass:
+bitlbee_jabber_server:
+bitlbee_jabber_conference:
+bitlbee_jabber_channels: []
 
-# Jabber groupchats to join
-jabber_channels:
-  - 'watercooler'
-  - 'disintegrator'
-  - 'warroom'
+bitlbee_facebook_enabled: false
+bitlbee_facebook_user:
+bitlbee_facebook_pass:
+
+bitlbee_twitter_enabled: false
+bitlbee_twitter_user:
+bitlbee_twitter_pass:
+
+bitlbee_discord_enabled: false
+bitlbee_discord_user:
+bitlbee_discord_pass:
+bitlbee_discord_channels:

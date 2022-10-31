@@ -11,6 +11,3 @@
 
 - include_tasks: glowingbear.yml
   when: weechat_frontend
-
-- include_tasks: nginx.yml
-  when: nginx_with_reverse_proxy

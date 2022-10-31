@@ -5,6 +5,7 @@
   roles:
     - common
   tasks:
-    - include_role:
+    - name: 'Include role from tag'
+      include_role:
         name: '{{ item }}'
       with_items: '{{ tags }}'

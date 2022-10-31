@@ -1,0 +1,26 @@
+---
+- name: wrapper block
+  module_defaults:
+    synology_dsm:
+      base_url: '{{ synology_dsm_base_url }}'
+      login_cookie: '{{ synology_dsm_login_cookie | default(omit) }}'
+  block:
+    - include_tasks: login.yml
+
+    #- name: Query API info
+    #  synology_dsm_api_request:
+    #    cgi_name: query.cgi
+    #    api_name: SYNO.API.Info
+    #    api_method: query
+    #    api_params:
+    #      query: all
+
+    - name: Query system status
+      synology_dsm:
+        api_name: SYNO.Core.System.Status
+        api_method: get
+
+    - include_tasks: terminal.yml
+    - include_tasks: users.yml
+    - include_tasks: packages.yml
+    - include_tasks: files.yml

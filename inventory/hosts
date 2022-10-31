@@ -1,2 +1,4 @@
+athena ansible_host=10.0.0.58
+
 [home]
 athena

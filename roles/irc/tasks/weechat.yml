@@ -30,15 +30,7 @@
     src: weechat.service.j2
     dest: /usr/lib/systemd/system/weechat.service
     owner: root
-    mode: 0755
-
-- name: Template weechat relay config
-  template:
-    src: relay.conf.j2
-    dest: '{{ weechat_config_dir }}/relay.conf'
-    owner: weechat
-    mode: 0755
-  when: not weechat_config_repo
+    mode: 0644
 
 - name: Activate weechat service
   systemd:
@@ -46,3 +38,10 @@
     name: weechat
     enabled: true
     state: started
+
+- name: Set Tmux attach on login
+  copy:
+    dest: '{{ weechat_home }}/.zlogin'
+    content: 'tmux -L weechat attach -d'
+    owner: '{{ weechat_username }}'
+    mode: 0644

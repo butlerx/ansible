@@ -6,7 +6,7 @@ User = bitlbee
 # DaemonPort = 6697
 
 AuthMode = {{ bitlbee_authmode }}
-{% id bitlbee_authmode is 'Closed' %}
+{% if bitlbee_authmode == 'Closed' %}
 AuthPassword = {{ bitlbee_pass }}
 {% endif %}
 

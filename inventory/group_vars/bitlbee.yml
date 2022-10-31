@@ -1,0 +1,21 @@
+---
+bitlbee_hostname: bitlbee.notthe.cloud
+bitlbee_pass: "{{ lookup('community.general.passwordstore', 'notthe.cloud/bitlbee') }}"
+bitlbee_oper_pass: "{{ lookup('community.general.passwordstore', 'notthe.cloud/bitlbee subkey=oper') }}"
+bitlbee_port: 6697
+bitlbee_authmode: registered
+
+bitlbee_facebook_enabled: true
+bitlbee_facebook_user: cianbutlerx@gmail.com
+bitlbee_facebook_pass: "{{ lookup('community.general.passwordstore', 'notthe.cloud/bitlbee subkey=facebook') }}"
+
+bitlbee_twitter_enabled: true
+bitlbee_twitter_user: cianbutlerx
+bitlbee_twitter_pass: "{{ lookup('community.general.passwordstore', 'notthe.cloud/bitlbee subkey=twitter') }}"
+
+bitlbee_discord_enabled: true
+bitlbee_discord_user: butlerx@notthe.cloud
+bitlbee_discord_pass: "{{ lookup('community.general.passwordstore', 'notthe.cloud/bitlbee subkey=discord') }}"
+bitlbee_discord_channels:
+  - name: rootholders
+    account: discord

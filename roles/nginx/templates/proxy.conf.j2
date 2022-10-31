@@ -2,7 +2,7 @@ server {
   listen 80;
   root /usr/share/nginx/html;
   index index.html index.htm;
-  server_name {{ item.key }}.gobut.me;
+  server_name {{ item.key }}.{{ nginx_hostname }};
 
   location / {
     proxy_pass http://localhost:{{ item.value }}/;

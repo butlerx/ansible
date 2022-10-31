@@ -1,2 +1,3 @@
 ---
 install_dotfiles: true
+nginx_hostname: notthe.cloud

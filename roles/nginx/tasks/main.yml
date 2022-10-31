@@ -1,29 +1,26 @@
 ---
-- name: Ensure Debian
-  assert:
-    that:
-      - ansible_distribution == 'Debian'
-
 - name: Install NGINX
-  apt:
-    package:
-      - nginx
-      - php7.3-fpm
-      - php7.3-cgi
-      - php7.3-xml
-      - php7.3-sqlite3
-      - php7.3-intl
-    state: present
-  tags: nginx
+  include_role:
+    name: nginxinc.nginx
+  vars:
+    nginx_modules: []
+    nginx_logrotate_conf_enable: true
 
 - name: Configure NGINX Proxies
-  become: true
   template:
     src: 'proxy.conf.j2'
-    dest: '/etc/nginx/sites-enabled/{{ item.key }}'
+    dest: '/etc/nginx/sites-available/{{ item.key }}'
     owner: root
     group: root
     mode: 0644
+  tags: nginx
+  with_dict: '{{ nginx_proxies }}'
+
+- name: Link NGINX Proxies
+  file:
+    src: '/etc/nginx/sites-available/{{ item.key }}'
+    dest: '/etc/nginx/sites-enabled/{{ item.key }}'
+    state: link
   tags: nginx
   notify: reload nginx
   with_dict: '{{ nginx_proxies }}'

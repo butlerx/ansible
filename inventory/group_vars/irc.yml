@@ -8,3 +8,6 @@ dotfiles_files:
   - zshrc
   - ssh/config
   - gitconfig
+
+weechat_frontend: false
+weechat_passphrase: "{{ lookup('community.general.passwordstore', 'notthe.cloud/weechat') }}"

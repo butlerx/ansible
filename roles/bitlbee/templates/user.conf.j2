@@ -1,14 +1,73 @@
-<user nick="{{bitlbee_user}}" password="{{bitlbee_pass}}" version="1">
-<setting name="last_version">197121</setting>
-<account protocol="jabber" handle="{{jabber_handle}}" password="{{jabber_pwd}}" autoconnect="true" tag="jabber" server="{{jabber_server}}"/>
-<channel name="&amp;bitlbee" type="control">
-  <setting name="auto_join">true</setting>
-</channel>
+<user nick="{{ bitlbee_user }}" password="{{ bitlbee_pass }}" version="1">
+  <setting name="last_version">198144</setting>
 
-{% for chan in jabber_channels %}
-<channel name="#{{chan}}" type="chat">
-  <setting name="account">jabber</setting>
-  <setting name="chat_type">room</setting>
-  <setting name="room">{{chan}}@{{jabber_conference}}conference.jabber.newdream.net</setting>
-</channel>
-{% endfor %}
+  {% if bitlbee_jabber_enabled %}
+  <account
+    protocol="jabber"
+    handle="{{ bitlbee_jabber_user }}"
+    password="{{ bitlbee_jabber_pass }}"
+    autoconnect="true"
+    tag="jabber"
+    server="{{ bitlbee_jabber_server }}"
+  />
+  {% endif %}
+
+  {% if bitlbee_twitter_enabled %}
+  <account
+    protocol="twitter"
+    handle="{{ bitlbee_twitter_user }}"
+    password="{{ bitlbee_twitter_pass }}"
+    autoconnect="true"
+    tag="twitter"
+  />
+  {% endif %}
+
+  {% if bitlbee_facebook_enabled %}
+  <account
+    protocol="facebook"
+    handle="{{ bitlbee_facebook_user }}"
+    password="{{ bitlbee_facebook_pass }}"
+    autoconnect="true"
+    tag="facebook"
+  >
+    <setting name="cid">G8ZS8xZkIGN25bKSxKLP</setting>
+    <setting name="did">f47a4487-6bf0-484e-b02b-7c50af0bc170</setting>
+    <setting name="group_chat_open">all</setting>
+    <setting name="mid">2374811531</setting>
+    <setting name="uid">100001531479925</setting>
+  </account>
+  {% endif %}
+
+  {% if bitlbee_discord_enabled %}
+  <account
+    protocol="discord"
+    handle="{{ bitlbee_discord_user }}"
+    password="{{ bitlbee_discord_pass }}"
+    autoconnect="true"
+    tag="discord"
+  />
+  {% endif %}
+
+  <channel name="&amp;bitlbee" type="control">
+    <setting name="auto_join">true</setting>
+    <setting name="show_users">online+,away,special%,offline</setting>
+  </channel>
+
+  {% for chan in bitlbee_discord_channels %}
+  <channel name="#{{ chan.name }}" type="chat">
+    <setting name="account">{{ chan.account }}</setting>
+    <setting name="auto_join">true</setting>
+    <setting name="chat_type">room</setting>
+    <setting name="room">Red.{{ chan.name }}</setting>
+  </channel>
+  {% endfor %}
+
+  {% for chan in bitlbee_jabber_channels %}
+  <channel name="#{{ chan.name }}" type="chat">
+    <setting name="account">{{ chan.account }}</setting>
+    <setting name="auto_join">true</setting>
+    <setting name="chat_type">room</setting>
+    <setting name="room">{{ chan.name }}@{{ bitlbee_jabber_conference }}</setting>
+  </channel>
+  {% endfor %}
+</user>

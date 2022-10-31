@@ -13,8 +13,8 @@
     path: /etc/bitlbee
     state: directory
     owner: root
-    group: root
-    mode: 0755
+    group: bitlbee
+    mode: 0750
 
 - name: Create bitlbee state directory
   file:
@@ -29,8 +29,8 @@
     src: bitlbee.conf.j2
     dest: /etc/bitlbee/bitlbee.conf
     owner: root
-    group: root
-    mode: 0644
+    group: bitlbee
+    mode: 0640
   notify: restart bitlbee
 
 - name: Install /etc/defaults/bitlbee file
@@ -47,8 +47,8 @@
     src: motd.txt
     dest: /etc/bitlbee/motd.txt
     owner: root
-    group: root
-    mode: 0644
+    group: bitlbee
+    mode: 0640
   notify: restart bitlbee
 
 - name: Configure bitlbee IM accounts

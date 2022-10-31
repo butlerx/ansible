@@ -2,7 +2,6 @@
 - name: Create weechat user
   user:
     name: '{{ weechat_username }}'
-    shell: /bin/bash
     create_home: true
     home: '{{ weechat_home }}'
 
@@ -32,10 +31,3 @@
     state: directory
     mode: 0755
     owner: '{{ weechat_username }}'
-
-- name: Template weechat env file
-  template:
-    src: weechat_env.sh.j2
-    dest: '{{ weechat_env_file_path }}'
-    owner: '{{ weechat_username }}'
-    mode: 0755

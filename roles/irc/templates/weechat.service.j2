@@ -10,9 +10,9 @@ ExecStart=/usr/bin/weechat-headless --daemon
 RemainAfterExit=yes
 ExecStart=/usr/bin/tmux -L weechat new -d -s weechat weechat
 ExecStop=/usr/bin/tmux -L weechat kill-session -t weechat
-{% end %}
+{% endif %}
 User={{ weechat_username }}
-EnvironmentFile={{ weechat_env_file_path }}
+Environment="WEECHAT_PASSPHRASE={{ weechat_passphrase }}"
 
 [Install]
 WantedBy=default.target

@@ -16,11 +16,10 @@
 
 - name: Create default website
   copy:
-    src: 'index.html'
-    dest: '/var/www/default/index.html'
+    src: 'default/'
+    dest: '/var/www/default/'
     owner: root
     group: root
-    mode: 0644
   tags: nginx
 
 - name: Configure NGINX Proxies

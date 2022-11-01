@@ -5,6 +5,9 @@ firewall_ports:
   http:
     port: 80
     proto: tcp
+  https:
+    port: 443
+    proto: tcp
   dns:
     port: 53
     proto: tcp
@@ -32,5 +35,6 @@ ansible_ssh_pass: raspberry
 # NGINX
 nginx_hostname: gobut.me
 nginx_proxies:
-  graphs: 3000
-  prometheus: 9090
+  graphs: localhost:3000
+  radarr: 10.0.0.57:7878
+  sonarr: 10.0.0.57:8989

@@ -12,9 +12,17 @@
 - name: Configure nginx
   template:
     src: 'nginx.conf.j2'
-    dest: '/etc/nginx/sites-enabled/default'
+    dest: '/etc/nginx/sites-available/pihole'
     owner: root
     group: root
     mode: 0644
+  tags: nginx
+  notify: reload nginx
+
+- name: Link NGINX conf
+  file:
+    src: '/etc/nginx/sites-available/pihole'
+    dest: '/etc/nginx/sites-enabled/pihole'
+    state: link
   tags: nginx
   notify: reload nginx

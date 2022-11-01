@@ -9,7 +9,7 @@ roles:
   - src: cloudalchemy.snmp-exporter
     version: 0.4.12
   - src: nginxinc.nginx
-    version: 0.19.2
+    version: 0.23.2
 collections:
   - name: community.general
     version: 3.0.0

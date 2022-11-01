@@ -3,7 +3,7 @@ server {
     listen [::]:80 default_server;
 
     root {{ pihole_web_dir }};
-    server_name _;
+    server_name {{ hostname }};
     autoindex off;
 
     index pihole/index.php index.php index.html index.htm;

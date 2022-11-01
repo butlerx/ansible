@@ -6,6 +6,23 @@
     nginx_modules: []
     nginx_logrotate_conf_enable: true
 
+- name: Create default html dir
+  tags: nginx
+  file:
+    name: '/var/www/default'
+    state: directory
+    owner: 'root'
+    group: 'root'
+
+- name: Create default website
+  copy:
+    src: 'index.html'
+    dest: '/var/www/default/index.html'
+    owner: root
+    group: root
+    mode: 0644
+  tags: nginx
+
 - name: Configure NGINX Proxies
   template:
     src: 'proxy.conf.j2'
@@ -15,6 +32,24 @@
     mode: 0644
   tags: nginx
   with_dict: '{{ nginx_proxies }}'
+
+- name: Deploy nginx default conf
+  copy:
+    src: 'default.conf'
+    dest: '/etc/nginx/sites-available/default'
+    owner: root
+    group: root
+    mode: 0644
+  tags: nginx
+  notify: reload nginx
+
+- name: Link NGINX default conf
+  file:
+    src: '/etc/nginx/sites-available/default'
+    dest: '/etc/nginx/sites-enabled/default'
+    state: link
+  tags: nginx
+  notify: reload nginx
 
 - name: Link NGINX Proxies
   file:
